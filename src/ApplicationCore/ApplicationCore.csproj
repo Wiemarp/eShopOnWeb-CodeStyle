@@ -1,21 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>	
-		<RootNamespace>Microsoft.eShopWeb.ApplicationCore</RootNamespace>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Ardalis.GuardClauses" />
-		<PackageReference Include="Ardalis.Result" />
-		<PackageReference Include="Ardalis.Specification" />
-    <PackageReference Include="NimblePros.SharedKernel" />
-    <PackageReference Include="System.Security.Claims" />
-		<PackageReference Include="System.Text.Json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\BlazorShared\BlazorShared.csproj" />
-	</ItemGroup>
-
+    <PropertyGroup>
+        <RootNamespace>Microsoft.eShopWeb.ApplicationCore</RootNamespace>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Ardalis.GuardClauses" />
+        <PackageReference Include="Ardalis.Result" />
+        <PackageReference Include="Ardalis.Specification" />
+        <PackageReference Include="NimblePros.SharedKernel" />
+        <PackageReference Include="System.Security.Claims" />
+        <PackageReference Include="System.Text.Json" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\BlazorShared\BlazorShared.csproj" />
+    </ItemGroup>
+    <Target
+        Name="Husky"
+        BeforeTargets="Restore;CollectPackageReferences"
+        Condition="'$(HUSKY)' != 0"
+    >
+        <Exec
+            Command="dotnet tool restore"
+            StandardOutputImportance="Low"
+            StandardErrorImportance="High"
+        />
+        <Exec
+            Command="dotnet husky install"
+            StandardOutputImportance="Low"
+            StandardErrorImportance="High"
+            WorkingDirectory="..\.."
+        />
+    </Target>
 </Project>
